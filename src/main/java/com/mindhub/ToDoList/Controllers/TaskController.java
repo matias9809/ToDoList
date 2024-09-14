@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -77,50 +76,13 @@ public class TaskController {
         return taskService.getTaskById(id);
     }
     @PostMapping
-    @Operation(
-            summary ="task created",
-            description = "created of task information",
-            parameters = {
-
-                    @Parameter(
-                            name = "taskRecepDto",
-                            description ="object that contains information to be created by the task"
-                    ),
-                    @Parameter(
-                            name ="idUser",
-                            description = "identifier of the user who is going to be assigned the task"
-                    )
-            },
-            responses = {
-                    @ApiResponse(
-                            responseCode = "201",
-                            description = "Successful operation",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(type = "string", example = "Created")
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Invalid created"
-                    )
-            }
-    )
-    public ResponseEntity<String> postTask(@RequestBody PostTaskDto taskRecepDto,Long idUser){
+    public ResponseEntity<String> postTask(@RequestBody PostTaskDto taskRecepDto, @RequestParam Long idUser){
         return taskService.addTaskToUser(taskRecepDto,idUser);
     }
     @DeleteMapping("/{id}")
     @Operation(
             summary ="task delete",
             description = "delete of task information",
-            parameters = {
-                    @Parameter(
-                            name = "id",
-                            description = "The search query to find matching task",
-                            required = false,
-                            example = "example search"
-                    )
-            },
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -140,38 +102,7 @@ public class TaskController {
         return taskService.deleteTask(id);
     }
     @PutMapping("/{id}")
-    @Operation(
-            summary ="task modification",
-            description = "modification of task information",
-            parameters = {
-                    @Parameter(
-                            name = "id",
-                            description = "The search query to find matching task",
-                            required = false,
-                            example = "example search"
-                    ),
-                    @Parameter(
-                            name = "taskRecepDto",
-                            description ="object that contains information to be updated by the task",
-                            required = false
-                    )
-            },
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Successful operation",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema(type = "string", example = "Ok")
-                            )
-                    ),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Invalid modify"
-                    )
-            }
-    )
-    public ResponseEntity<String> putTask(@RequestBody TaskRecepDto taskRecepDto){
-        return taskService.putTask(taskRecepDto);
+    public ResponseEntity<String> putTask(@PathVariable Long id,@RequestBody TaskRecepDto taskRecepDto){
+        return taskService.putTask(id,taskRecepDto);
     }
 }

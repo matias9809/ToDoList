@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 @Entity
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO )
     private Long id;
     private String tittle,description;
     private TaskStatus taskStatus=TaskStatus.PENDING;

@@ -2,6 +2,7 @@ package com.mindhub.ToDoList.Service;
 import com.mindhub.ToDoList.DTO.PutUserEntityDto;
 import com.mindhub.ToDoList.DTO.UserEntityDto;
 import com.mindhub.ToDoList.DTO.UserEntityRecepDto;
+import com.mindhub.ToDoList.Entitys.UserEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ public interface UserEntityService {
 
      ResponseEntity<UserEntityDto> getUserEntityById(Long id);
 
-     ResponseEntity<String> postUserEntity(UserEntityRecepDto userEntityPostDTO);
+     ResponseEntity<String> postUserEntity(UserEntity userEntityPostDTO);
 
      ResponseEntity<String> deleteUserEntity(Long id);
 

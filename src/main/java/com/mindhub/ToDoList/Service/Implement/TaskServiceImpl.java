@@ -72,8 +72,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public ResponseEntity<String> putTask(TaskRecepDto taskRecepDto) {
-        Task task=taskRepository.findById(taskRecepDto.getId()).orElse(null);
+    public ResponseEntity<String> putTask( Long id,TaskRecepDto taskRecepDto) {
+        Task task=taskRepository.findById(id).orElse(null);
         if (task==null){
             return new ResponseEntity<>("The task not found",
                     HttpStatus.BAD_REQUEST);
@@ -83,7 +83,7 @@ public class TaskServiceImpl implements TaskService {
         task.setDescription(taskRecepDto.getDescription());
         task.setTittle(taskRecepDto.getTittle());
         taskRepository.save(task);
-        return new ResponseEntity<>("modification done correctly",
+        return new ResponseEntity<>("modification correctly",
                 HttpStatus.OK);
     }
 }

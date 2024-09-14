@@ -5,6 +5,7 @@ package com.mindhub.ToDoList.Controllers;
 import com.mindhub.ToDoList.DTO.PutUserEntityDto;
 import com.mindhub.ToDoList.DTO.UserEntityDto;
 import com.mindhub.ToDoList.DTO.UserEntityRecepDto;
+import com.mindhub.ToDoList.Entitys.UserEntity;
 import com.mindhub.ToDoList.Service.UserEntityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -97,8 +98,11 @@ public class UserEntityController {
             }
     )
 
-    public ResponseEntity<String> addUserEntity(@RequestBody @Valid UserEntityRecepDto userEntity){
-        System.out.println(userEntity.toString());
+    public ResponseEntity<String> addUserEntity(
+                                                @RequestParam String userName,
+                                                @RequestParam String password,
+                                                @RequestParam String email){
+        UserEntity userEntity = new UserEntity(userName,password,email);
         return userEntityService.postUserEntity(userEntity);
     }
     @PutMapping("/{id}")
@@ -112,12 +116,7 @@ public class UserEntityController {
                             required = false,
                             example = "example search"
                     )
-            },requestBody = @RequestBody(
-            content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = PutUserEntityDto.class)
-                    )
-            ),
+            },
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -133,8 +132,9 @@ public class UserEntityController {
                     )
             }
     )
-    public ResponseEntity<String> putUserEntity(@PathVariable Long id,@RequestBody PutUserEntityDto userEntityDto){
-        return userEntityService.putUsertEntity(id,userEntityDto);
+    public ResponseEntity<String> putUserEntity(@PathVariable Long id,@RequestParam String userName,@RequestParam String email){
+
+        return userEntityService.putUsertEntity(id,new PutUserEntityDto(userName,email));
 
     }
     @DeleteMapping("/{id}")

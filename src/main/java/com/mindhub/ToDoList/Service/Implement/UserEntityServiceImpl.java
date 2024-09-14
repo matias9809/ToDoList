@@ -41,27 +41,21 @@ public class UserEntityServiceImpl implements UserEntityService {
     }
 
     @Override
-    public ResponseEntity<String> postUserEntity(UserEntityRecepDto userEntityPostDTO) {
-        if (userEntityPostDTO.getUserName()==null){
-            return new ResponseEntity<>("the name cannot be null",HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> postUserEntity(UserEntity userEntity) {
+        System.out.println(userEntity.getUserName());
+        if (userEntity == null) {
+            return new ResponseEntity<>("UserEntityDto cannot be null", HttpStatus.BAD_REQUEST);
         }
-        if (userEntityPostDTO.getUserName().isEmpty()){
-            return new ResponseEntity<>("the name cannot be empty",HttpStatus.BAD_REQUEST);
+        if (userEntity.getUserName() == null || userEntity.getUserName().isEmpty()) {
+            return new ResponseEntity<>("The name cannot be empty", HttpStatus.BAD_REQUEST);
+        }
+        if (userEntity.getEmail() == null||  userEntity.getEmail().isEmpty()) {
+            return new ResponseEntity<>("The email cannot be empty", HttpStatus.BAD_REQUEST);
         }
 
-        if (userEntityPostDTO.getEmail().isEmpty()){
-            return new ResponseEntity<>("the email cannot be empty",HttpStatus.BAD_REQUEST);
-        }
-        if (userEntityPostDTO.getPassword().isEmpty()){
-            return new ResponseEntity<>("the password cannot be empty",HttpStatus.BAD_REQUEST);
-        }
-        if (isValidPassword(userEntityPostDTO.getPassword())){
-            return new ResponseEntity<>("The password must be 8 or more characters, at least 1 uppercase, 1 lowercase and 1 special character",HttpStatus.OK);
-        }
-        UserEntity userEntity=new UserEntity(userEntityPostDTO);
         userEntityRepository.save(userEntity);
 
-        return new ResponseEntity<>("the user was successfully registered",HttpStatus.CREATED);
+        return new ResponseEntity<>("The user was successfully registered", HttpStatus.CREATED);
     }
 
     @Override

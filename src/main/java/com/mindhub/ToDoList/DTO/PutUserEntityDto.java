@@ -13,9 +13,9 @@ public class PutUserEntityDto {
     @Email
     private String email;
 
-    public PutUserEntityDto(UserEntity userEntity){
-        this.email=userEntity.getEmail();
-        this.userName=userEntity.getUserName();
+    public PutUserEntityDto(String userName,String email){
+        this.email=email;
+        this.userName=userName;
     }
 
     public PutUserEntityDto() {

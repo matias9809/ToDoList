@@ -15,5 +15,5 @@ public interface TaskService {
     ResponseEntity<String> addTaskToUser(PostTaskDto taskPostDTO, Long id);
 
     ResponseEntity<String> deleteTask(Long id);
-    ResponseEntity<String> putTask(TaskRecepDto taskRecepDto);
+    ResponseEntity<String> putTask(Long id,TaskRecepDto taskRecepDto);
 }

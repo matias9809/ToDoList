@@ -22,6 +22,12 @@ public class UserEntityRecepDto {
     // Constructor vacío para la deserialización
     public UserEntityRecepDto() {}
 
+    public UserEntityRecepDto(String userName, String password, String email) {
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+    }
+
     // Getters y Setters
     public String getUserName() {
         return userName;
