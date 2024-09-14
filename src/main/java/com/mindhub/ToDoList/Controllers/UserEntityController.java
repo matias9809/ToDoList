@@ -1,5 +1,7 @@
 package com.mindhub.ToDoList.Controllers;
 
+
+
 import com.mindhub.ToDoList.DTO.PutUserEntityDto;
 import com.mindhub.ToDoList.DTO.UserEntityDto;
 import com.mindhub.ToDoList.DTO.UserEntityRecepDto;
@@ -10,14 +12,14 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@Controller
-@RequestMapping()
+@RestController
+@RequestMapping("/api/users")
 public class UserEntityController {
     @Autowired
     private UserEntityService userEntityService;
@@ -75,25 +77,14 @@ public class UserEntityController {
         return userEntityService.getUserEntityById(id);
     }
 
-    @PostMapping
+    @PostMapping("/post")
     @Operation(
-            summary ="user created",
-            description = "created of user information",
-            parameters = {
-
-                    @Parameter(
-                            name = "userEntityDto",
-                            description ="object that contains information to be created by the user"
-                    ),
-                    @Parameter(
-                    name = "password",
-                    description = "contains the user's password"
-            )
-            },
+            summary = "Create a user",
+            description = "Creates a new user with the provided details",
             responses = {
                     @ApiResponse(
                             responseCode = "201",
-                            description = "Successful operation",
+                            description = "User created successfully",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(type = "string", example = "Created")
@@ -101,12 +92,14 @@ public class UserEntityController {
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Invalid created"
+                            description = "Invalid request"
                     )
             }
     )
-    public ResponseEntity<String> addUserEntity(@RequestBody UserEntityRecepDto userEntity, String password){
-        return userEntityService.postUserEntity(userEntity,password);
+
+    public ResponseEntity<String> addUserEntity(@RequestBody @Valid UserEntityRecepDto userEntity){
+        System.out.println(userEntity.toString());
+        return userEntityService.postUserEntity(userEntity);
     }
     @PutMapping("/{id}")
     @Operation(
@@ -118,13 +111,13 @@ public class UserEntityController {
                             description = "The search query to find matching user",
                             required = false,
                             example = "example search"
-                    ),
-                    @Parameter(
-                      name = "userEntityDto",
-                      description ="object that contains information to be updated by the user",
-                      required = false
                     )
-            },
+            },requestBody = @RequestBody(
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = PutUserEntityDto.class)
+                    )
+            ),
             responses = {
                     @ApiResponse(
                             responseCode = "200",

@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface UserEntityService {
      ResponseEntity<List<UserEntityDto>> getUserEntities();
 
      ResponseEntity<UserEntityDto> getUserEntityById(Long id);
 
-     ResponseEntity<String> postUserEntity(UserEntityRecepDto userEntityPostDTO, String password);
+     ResponseEntity<String> postUserEntity(UserEntityRecepDto userEntityPostDTO);
 
      ResponseEntity<String> deleteUserEntity(Long id);
 

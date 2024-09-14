@@ -14,6 +14,9 @@ public class TaskRecepDto {
     @NotNull@NotBlank
     private TaskStatus taskStatus;
 
+    public TaskRecepDto() {
+    }
+
     public TaskRecepDto(Task task) {
         this.tittle = task.getTittle();
         this.description = task.getDescription();

@@ -1,11 +1,10 @@
 package com.mindhub.ToDoList.Entitys;
 
+
+
 import com.mindhub.ToDoList.DTO.UserEntityRecepDto;
 import jakarta.persistence.*;
-import jogamp.common.os.elf.SectionArmAttributes;
-import org.apache.catalina.User;
 
-import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,8 +15,11 @@ public class UserEntity {
     private Long id;
 
     private String userName,password,email;
-    @OneToMany(mappedBy = "userEntity",cascade = CascadeType.REMOVE)
-    private Set<Task> tasks=new HashSet<Task>();
+    @OneToMany(mappedBy = "userEntity",fetch =FetchType.LAZY,cascade = CascadeType.REMOVE)
+    private Set<Task> tasks=new HashSet<>();
+
+    public UserEntity() {
+    }
 
     public UserEntity(String userName, String password, String email) {
         this.userName = userName;
@@ -62,7 +64,6 @@ public class UserEntity {
         this.tasks = tasks;
     }
     public void addTask(Task task){
-        task.setUser(this);
-        tasks.add(task);
-    }
+        task.setUserEntity(this);
+        tasks.add(task);}
 }

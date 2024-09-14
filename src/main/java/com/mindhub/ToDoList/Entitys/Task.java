@@ -1,13 +1,10 @@
 package com.mindhub.ToDoList.Entitys;
 
 import com.mindhub.ToDoList.DTO.PostTaskDto;
-import com.mindhub.ToDoList.DTO.TaskRecepDto;
 import com.mindhub.ToDoList.Enum.TaskStatus;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
+@Entity
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +12,10 @@ public class Task {
     private String tittle,description;
     private TaskStatus taskStatus=TaskStatus.PENDING;
     @ManyToOne
-    private UserEntity user;
+    private UserEntity userEntity;
+
+    public Task() {
+    }
 
     public Task(String title, String description) {
         this.tittle = title;
@@ -54,11 +54,11 @@ public class Task {
         this.taskStatus = taskStatus;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public UserEntity getUserEntity() {
+        return userEntity;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 }

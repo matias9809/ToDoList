@@ -16,6 +16,9 @@ public class TaskDto {
         this.id = task.getId();
     }
 
+    public TaskDto() {
+    }
+
     public Long getId() {
         return id;
     }

@@ -10,6 +10,9 @@ public class PostTaskDto {
     @NotBlank
     private String tittle, description;
 
+    public PostTaskDto() {
+    }
+
     public PostTaskDto(Task task) {
         this.tittle = task.getTittle();
         this.description = task.getDescription();

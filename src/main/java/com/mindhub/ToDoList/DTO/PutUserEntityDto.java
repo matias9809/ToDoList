@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class PutUserEntityDto {
-    @NotBlank@NotNull@NotBlank
+    @NotBlank@NotNull
     private String userName;
     @NotNull
     @NotBlank
@@ -18,6 +18,9 @@ public class PutUserEntityDto {
         this.userName=userEntity.getUserName();
     }
 
+    public PutUserEntityDto() {
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -26,4 +29,4 @@ public class PutUserEntityDto {
         return email;
     }
 
-}}
+}

@@ -24,7 +24,9 @@ public class TaskServiceImpl implements TaskService {
     private UserEntityRepository userEntityRepository;
     @Override
     public ResponseEntity<List<TaskDto>> getTask() {
-        return new ResponseEntity<>(taskRepository.findAll().stream().map(TaskDto::new).collect(Collectors.toList()),HttpStatus.OK);
+        return new ResponseEntity<>
+                (taskRepository.findAll().stream().map(TaskDto::new)
+                        .collect(Collectors.toList()),HttpStatus.OK);
 
     }
 
@@ -41,16 +43,19 @@ public class TaskServiceImpl implements TaskService {
     public ResponseEntity<String> addTaskToUser(PostTaskDto taskRecepDto, Long id) {
         UserEntity userEntity=userEntityRepository.findById(id).orElse(null);
         if (userEntity==null){
-            return new ResponseEntity<>("The user to be assigned to the task was not found",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("The user to be assigned " +
+                    "to the task was not found",HttpStatus.BAD_REQUEST);
         }
         if (taskRecepDto.getTittle().isEmpty()){
-            return  new ResponseEntity<>("the title cannot be empty", HttpStatus.BAD_REQUEST);
+            return  new ResponseEntity<>("the title cannot be empty"
+                    , HttpStatus.BAD_REQUEST);
         }
         Task task=new Task(taskRecepDto);
         userEntity.addTask(task);
         userEntityRepository.save(userEntity);
         taskRepository.save(task);
-        return new ResponseEntity<>("the task was created and assigned correctly",HttpStatus.CREATED);
+        return new ResponseEntity<>("the task was created and " +
+                "assigned correctly",HttpStatus.CREATED);
 
     }
 
@@ -58,23 +63,27 @@ public class TaskServiceImpl implements TaskService {
     public ResponseEntity<String> deleteTask(Long id) {
         Task task=taskRepository.findById(id).orElse(null);
         if (task==null){
-            return new ResponseEntity<>("The task not found",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("The task not found",
+                    HttpStatus.BAD_REQUEST);
         }
         taskRepository.delete(task);
-        return new ResponseEntity<>("The task was successfully deleted",HttpStatus.OK);
+        return new ResponseEntity<>("The task was successfully deleted",
+                HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<String> putTask(TaskRecepDto taskRecepDto) {
         Task task=taskRepository.findById(taskRecepDto.getId()).orElse(null);
         if (task==null){
-            return new ResponseEntity<>("The task not found",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("The task not found",
+                    HttpStatus.BAD_REQUEST);
         }
 
         task.setTaskStatus(taskRecepDto.getTaskStatus());
         task.setDescription(taskRecepDto.getDescription());
         task.setTittle(taskRecepDto.getTittle());
         taskRepository.save(task);
-        return new ResponseEntity<>("modification done correctly",HttpStatus.OK);
+        return new ResponseEntity<>("modification done correctly",
+                HttpStatus.OK);
     }
 }

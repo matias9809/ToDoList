@@ -9,7 +9,10 @@ import java.util.stream.Collectors;
 public class UserEntityDto {
     private  Long id;
     private  String userName,email;
-    private Set<TaskDto> taskDtos=new HashSet<>();
+    private Set<TaskDto> taskDtos;
+
+    public UserEntityDto() {
+    }
 
     public UserEntityDto(UserEntity userEntity){
         this.id=userEntity.getId();

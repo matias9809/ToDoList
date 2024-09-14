@@ -12,12 +12,13 @@ import com.mindhub.ToDoList.Service.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.mindhub.ToDoList.Utils.PasswordChecker.isValidPassword;
-
+@Service
 public class UserEntityServiceImpl implements UserEntityService {
     @Autowired
     private UserEntityRepository userEntityRepository;
@@ -40,17 +41,21 @@ public class UserEntityServiceImpl implements UserEntityService {
     }
 
     @Override
-    public ResponseEntity<String> postUserEntity(UserEntityRecepDto userEntityPostDTO, String password) {
+    public ResponseEntity<String> postUserEntity(UserEntityRecepDto userEntityPostDTO) {
+        if (userEntityPostDTO.getUserName()==null){
+            return new ResponseEntity<>("the name cannot be null",HttpStatus.BAD_REQUEST);
+        }
         if (userEntityPostDTO.getUserName().isEmpty()){
             return new ResponseEntity<>("the name cannot be empty",HttpStatus.BAD_REQUEST);
-       }
+        }
+
         if (userEntityPostDTO.getEmail().isEmpty()){
             return new ResponseEntity<>("the email cannot be empty",HttpStatus.BAD_REQUEST);
         }
-        if (password.isEmpty()){
+        if (userEntityPostDTO.getPassword().isEmpty()){
             return new ResponseEntity<>("the password cannot be empty",HttpStatus.BAD_REQUEST);
         }
-        if (isValidPassword(password)){
+        if (isValidPassword(userEntityPostDTO.getPassword())){
             return new ResponseEntity<>("The password must be 8 or more characters, at least 1 uppercase, 1 lowercase and 1 special character",HttpStatus.OK);
         }
         UserEntity userEntity=new UserEntity(userEntityPostDTO);
